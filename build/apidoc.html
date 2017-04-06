@@ -1,0 +1,446 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/rguerreiro/express-device"
+
+    >express-device (v0.4.2)</a>
+</h1>
+<h4>Browser detection library, built on top of express</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.express-device">module express-device</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-device.Parser">
+            function <span class="apidocSignatureSpan">express-device.</span>Parser
+            <span class="apidocSignatureSpan">(user_agent, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-device.capture">
+            function <span class="apidocSignatureSpan">express-device.</span>capture
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-device.customCheck">
+            function <span class="apidocSignatureSpan">express-device.</span>customCheck
+            <span class="apidocSignatureSpan">(req, mydevice)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-device.enableDeviceHelpers">
+            function <span class="apidocSignatureSpan">express-device.</span>enableDeviceHelpers
+            <span class="apidocSignatureSpan">(app)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.express-device.enableViewRouting">
+            function <span class="apidocSignatureSpan">express-device.</span>enableViewRouting
+            <span class="apidocSignatureSpan">(app, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">express-device.</span>namespace</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">express-device.</span>version</span>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.express-device" id="apidoc.module.express-device">module express-device</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.express-device.Parser" id="apidoc.element.express-device.Parser">
+        function <span class="apidocSignatureSpan">express-device.</span>Parser
+        <span class="apidocSignatureSpan">(user_agent, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function DeviceParser(user_agent, options) {
+    var self = this;
+
+    self.options = merge(defaultOptions, options);
+
+    self.make_sure_parser_was_executed = function () {
+        if (self.options.parseUserAgent === true &#x26;&#x26; !self.useragent)
+            self.useragent = useragent.lookup(user_agent);
+    };
+
+    self.get_model = function () {
+        self.make_sure_parser_was_executed();
+        if (self.useragent)
+            return self.useragent.device.family;
+        return &#x27;&#x27;;
+    };
+
+    self.get_type = function () {
+        var ua = user_agent;
+
+        if (!ua || ua === &#x27;&#x27;) {
+            // No user agent.
+            return self.options.emptyUserAgentDeviceType;
+        }
+        // overwrite Flipboard user agent otherwise it&#x27;s detected as a desktop
+        if (ua.match(/FlipboardProxy/i))
+            ua = &#x27;FlipboardProxy/1.1;  http://flipboard.com/browserproxy&#x27;;
+        if (ua.match(/Applebot/i))
+            ua = &#x27;Applebot/0.1;  http://www.apple.com/go/applebot&#x27;;
+        if (ua.match(/GoogleTV|SmartTV|SMART-TV|Internet TV|NetCast|NETTV|AppleTV|boxee|Kylo|Roku|DLNADOC|hbbtv|CrKey|CE\-HTML/i
+)) {
+            // if user agent is a smart TV - http://goo.gl/FocDk
+            return &#x27;tv&#x27;;
+        } else if (ua.match(/Xbox|PLAYSTATION (3|4)|Wii/i)) {
+            // if user agent is a TV Based Gaming Console
+            return &#x27;tv&#x27;;
+        } else if (ua.match(/QtCarBrowser/i)) {
+            // if the user agent is a car
+            return self.options.carUserAgentDeviceType;;
+        } else if (ua.match(/Googlebot/i)) {
+            // if user agent is a BOT/Crawler/Spider
+            return self.options.botUserAgentDeviceType;
+        } else if (ua.match(/iP(a|ro)d/i) || (ua.match(/tablet/i) &#x26;&#x26; !ua.match(/RX-34/i)) || ua.match(/FOLIO/i)) {
+            // if user agent is a Tablet
+            return &#x27;tablet&#x27;;
+        } else if (ua.match(/Linux/i) &#x26;&#x26; ua.match(/Android/i) &#x26;&#x26; !ua.match(/Fennec|mobi|HTC Magic|HTCX06HT|Nexus One|SC-02B|fone
+ 945/i)) {
+            // if user agent is an Android Tablet
+            return &#x27;tablet&#x27;;
+        } else if (ua.match(/Kindle/i) || (ua.match(/Mac OS/i) &#x26;&#x26; ua.match(/Silk/i)) || (ua.match(/AppleWebKit/i) &#x26;&#x26; ua.match(/Silk
+/i) &#x26;&#x26; !ua.match(/Playstation Vita/i))) {
+            // if user agent is a Kindle or Kindle Fire
+            return &#x27;tablet&#x27;;
+        } else if (ua.match(/GT-P10|SC-01C|SHW-M180S|SGH-T849|SCH-I800|SHW-M180L|SPH-P100|SGH-I987|zt180|HTC( Flyer|_Flyer)|Sprint
+ ATP51|ViewPad7|pandigital(sprnova|nova)|Ideos S7|Dell Streak 7|Advent Vega|A101IT|A70BHT|MID7015|Next2|nook/i) || (ua.match(/MB511
+/i) &#x26;&#x26; ua.match(/RUTEM/i))) {
+            // if user agent is a pre Android 3.0 Tablet
+            return &#x27;tablet&#x27;;
+        } else if (ua.match(/BOLT|Fennec|Iris|Maemo|Minimo|Mobi|mowser|NetFront|Novarra|Prism|RX-34|Skyfire|Tear|XV6875|XV6975|Google
+ Wireless Transcoder/i)) {
+            // if user agent is unique phone User Agent
+            return &#x27;phone&#x27;;
+        } else if (ua.match(/Opera/i) &#x26;&#x26; ua.match(/Windows NT 5/i) &#x26;&#x26; ua.match(/HTC|Xda|Mini|Vario|SAMSUNG\-GT\-i8000|SAMSUNG\-SGH\-i9/i)) {
+            // if user agent is an odd Opera User Agent - http://goo.gl/nK90K
+            return &#x27;phone&#x27;;
+        } else if ((ua.match(/Windows (NT|XP|ME|9)/) &#x26;&#x26; !ua.match(/Phone/i)) &#x26;&#x26; !ua.match(/Bot|Spider|ia_archiver|NewsGator/i) ||
+ua.match(/Win( ?9|NT)/i)) {
+            // if user agent is Windows Desktop
+            return &#x27;desktop&#x27;;
+        } else if (ua.match(/Macintosh|PowerPC/i) &#x26;&#x26; !ua.match(/Silk/i)) {
+            // if agent is Mac Desktop
+            return &#x27;desktop&#x27;;
+        } else if (ua.match(/Linux/i) &#x26;&#x26; ua.match(/X11/i) &#x26;&#x26; !ua.match(/Charlotte|JobBot/i)) {
+            // if user agent is a Linux Desktop
+            return &#x27;desktop&#x27;;
+        } else if (ua.match(/CrOS/)) {
+            // if user agent is a Chrome Book
+            return &#x27;desktop&#x27;;
+        } else if (ua.match(/Solaris|SunOS|BSD/i)) {
+            // if user agent is a Solaris, SunOS, BSD Desktop
+            return &#x27;desktop&#x27;;
+        } else if (ua.m ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-device.capture" id="apidoc.element.express-device.capture">
+        function <span class="apidocSignatureSpan">express-device.</span>capture
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function capture(options) {
+    return function (req, res, next) {
+        var useragent = req.headers[&#x27;user-agent&#x27;];
+        var mydevice = device(useragent, options);
+
+        req.device = req.device || {};
+        req.device.parser = mydevice.parser; // to expose the device parser object to the running app
+        req.device.type = customCheck(req, mydevice);
+        req.device.name = mydevice.model;
+
+        if (next) return next();
+    };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+var device = require(&#x27;express-device&#x27;);
+
+app.set(&#x27;view engine&#x27;, &#x27;ejs&#x27;);
+app.set(&#x27;view options&#x27;, { layout: false });
+app.set(&#x27;views&#x27;, __dirname + &#x27;/views&#x27;);
+
+app.use(bodyParser());
+app.use(device.<span class="apidocCodeKeywordSpan">capture</span>());
+```
+By doing this you&#x27;re enabling the **request** object to have a property called **device**, which have the following properties
+:
+&#x3c;table&#x3e;
+&#x3c;tr&#x3e;&#x3c;td&#x3e;&#x3c;strong&#x3e;Name&#x3c;/strong&#x3e;&#x3c;/td&#x3e;&#x3c;td&#x3e;&#x3c;strong&#x3e;Field Type&#
+x3c;/strong&#x3e;&#x3c;/td&#x3e;&#x3c;td&#x3e;&#x3c;strong&#x3e;Description&#x3c;/strong&#x3e;&#x3c;/td&#x3e;&#x3c;td&#x3e;&#x3c
+;strong&#x3e;Possible Values&#x3c;/strong&#x3e;&#x3c;/td&#x3e;&#x3c;/tr&#x3e;
+&#x3c;tr&#x3e;
+    &#x3c;td&#x3e;type&#x3c;/td&#x3e;
+    &#x3c;td&#x3e;string&#x3c;/td&#x3e;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-device.customCheck" id="apidoc.element.express-device.customCheck">
+        function <span class="apidocSignatureSpan">express-device.</span>customCheck
+        <span class="apidocSignatureSpan">(req, mydevice)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function customCheck(req, mydevice) {
+    var useragent = req.headers[&#x27;user-agent&#x27;];
+
+    if (!useragent || useragent === &#x27;&#x27;) {
+        if (req.headers[&#x27;cloudfront-is-mobile-viewer&#x27;] === &#x27;true&#x27;) return &#x27;phone&#x27;;
+        if (req.headers[&#x27;cloudfront-is-tablet-viewer&#x27;] === &#x27;true&#x27;) return &#x27;tablet&#x27;;
+        if (req.headers[&#x27;cloudfront-is-desktop-viewer&#x27;] === &#x27;true&#x27;) return &#x27;desktop&#x27;;
+        // No user agent.
+        return mydevice.parser.options.emptyUserAgentDeviceType;
+    }
+
+    return mydevice.type;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-device.enableDeviceHelpers" id="apidoc.element.express-device.enableDeviceHelpers">
+        function <span class="apidocSignatureSpan">express-device.</span>enableDeviceHelpers
+        <span class="apidocSignatureSpan">(app)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function enableDeviceHelpers(app) {
+    var check_request = function (req, res, next) {
+        if (typeof req.device === &#x27;undefined&#x27;) {
+            next(new Error(&#x27;Must enable the device capture by using app.use(device.capture())&#x27;));
+        } else {
+            next();
+        }
+    };
+    app.use(check_request);
+
+    var check_device = function (device) {
+        return function (req, res, next) {
+            res.locals[&#x27;is_&#x27; + device] = req.device.type === device;
+            if (next) {
+                next();
+            }
+        }
+    }
+
+    app.use(check_device(&#x27;desktop&#x27;));
+    app.use(check_device(&#x27;phone&#x27;));
+    app.use(check_device(&#x27;tablet&#x27;));
+    app.use(check_device(&#x27;tv&#x27;));
+    app.use(check_device(&#x27;bot&#x27;));
+    app.use(check_device(&#x27;car&#x27;));
+
+    var is_mobile = function (req, res, next) {
+        res.locals.is_mobile = res.locals.is_phone || res.locals.is_tablet;
+        if (next) {
+            next();
+        }
+    };
+    app.use(is_mobile);
+
+    var device_type = function (req, res, next) {
+        res.locals.device_type = req.device.type;
+        if (next) {
+            next();
+        }
+    };
+    app.use(device_type);
+    var device_name = function (req, res, next) {
+        res.locals.device_name = req.device.name;
+        if (next) {
+            next();
+        }
+    };
+    app.use(device_name);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+        &#x3c;td&#x3e;It returns the device type string parsed from the request&#x3c;/td&#x3e;
+    &#x3c;/tr&#x3e;
+    &#x3c;tr&#x3e;
+        &#x3c;td&#x3e;device_name&#x3c;/td&#x3e;
+        &#x3c;td&#x3e;It returns the device name string parsed from the request&#x3c;/td&#x3e;
+    &#x3c;/tr&#x3e;
+&#x3c;/table&#x3e;
+In order to enable this method you have to pass the app reference to **device.<span class="apidocCodeKeywordSpan">enableDeviceHelpers
+</span>(app)**, just before **app.use(app.router)**.
+
+Here&#x27;s an example on how to use them (using [EJS](https://github.com/visionmedia/ejs) view engine):
+```html
+&#x3c;html&#x3e;
+&#x3c;head&#x3e;
+    &#x3c;title&#x3e;&#x3c;%= title %&#x3e;&#x3c;/title&#x3e;
+&#x3c;/head&#x3e;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.express-device.enableViewRouting" id="apidoc.element.express-device.enableViewRouting">
+        function <span class="apidocSignatureSpan">express-device.</span>enableViewRouting
+        <span class="apidocSignatureSpan">(app, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function enableViewRouting(app, options) {
+    if (!options || options.noPartials === false)
+        app.use(partials());
+
+    app.use(function (req, res, next) {
+        var _render = res.render.bind(res);
+        res.render = function (name, options, fn) {
+            var layout = options &#x26;&#x26; options.layout;
+            var ignore = (options &#x26;&#x26; options.ignoreViewRouting) || false;
+            var deviceType = req.device.type;
+
+            if (options &#x26;&#x26; options.forceType) {
+                deviceType = options.forceType;
+            }
+
+            if (ignore === false) {
+                if (layout === true || layout === undefined) {
+                    var defaultLayout = path.join(deviceType, &#x27;layout&#x27;);
+                    options = options || {};
+                    if (check(req, res, defaultLayout)) options.layout = defaultLayout;
+                }
+                else if (typeof layout === &#x22;string&#x22;) {
+                    var deviceLayout = path.join(deviceType, layout);
+                    if (check(req, res, deviceLayout)) options.layout = deviceLayout;
+                }
+
+                var deviceView = path.join(deviceType, name);
+                if (check(req, res, deviceView)) name = deviceView;
+            }
+
+            _render(name, options, fn);
+        };
+
+        if (next) return next();
+    });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+&#x3c;% } %&#x3e;
+&#x3c;/body&#x3e;
+&#x3c;/html&#x3e;
+```
+
+You can check a full working example [here](https://github.com/rguerreiro/express-device/tree/master/example).
+
+In version 0.3.0 a cool feature was added: the ability to route to a specific view\layout based on the device type (you must pass
+ the app reference to **device.<span class="apidocCodeKeywordSpan">enableViewRouting</span>(app)** to set it up). Consider the code
+ below:
+
+.
+|-- views
+    |-- phone
+    |    |-- layout.ejs
+    |    `-- index.ejs
+    |-- layout.ejs
+...</pre></li>
+    </ul>
+
+
+
+
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
