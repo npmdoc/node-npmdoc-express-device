@@ -1,6 +1,6 @@
 # npmdoc-express-device
 
-#### api documentation for  [express-device (v0.4.2)](https://github.com/rguerreiro/express-device)  [![npm package](https://img.shields.io/npm/v/npmdoc-express-device.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-express-device) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-express-device.svg)](https://travis-ci.org/npmdoc/node-npmdoc-express-device)
+#### basic api documentation for  [express-device (v0.4.2)](https://github.com/rguerreiro/express-device)  [![npm package](https://img.shields.io/npm/v/npmdoc-express-device.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-express-device) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-express-device.svg)](https://travis-ci.org/npmdoc/node-npmdoc-express-device)
 
 #### Browser detection library, built on top of express
 
@@ -87,7 +87,8 @@
     "scripts": {
         "test": "mocha"
     },
-    "version": "0.4.2"
+    "version": "0.4.2",
+    "bin": {}
 }
 ```
 
