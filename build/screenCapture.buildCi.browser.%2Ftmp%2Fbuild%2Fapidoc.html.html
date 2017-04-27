@@ -344,7 +344,24 @@ x3c;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Description&lt;/strong&gt;&lt;
 
     return mydevice.type;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+var device = require('../lib/device.js'),
+assert = require('assert');
+
+describe('cloudfront', function() {
+describe('with desktop header',function(){
+    it('should get device type desktop', function(){
+        var type = device.<span class="apidocCodeKeywordSpan">customCheck</span>({ headers: { 'cloudfront-is-desktop-viewer
+': 'true' } });
+        assert.equal(type, 'desktop');
+    });
+});
+describe('with mobile viewer', function () {
+    it('should get device type phone', function () {
+        var type = device.customCheck({ headers: { 'cloudfront-is-mobile-viewer': 'true' } });
+        assert.equal(type, 'phone');
+...</pre></li>
     </ul>
 
 
@@ -662,7 +679,24 @@ x3c;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Description&lt;/strong&gt;&lt;
 
     return mydevice.type;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+var device = require('../lib/device.js'),
+assert = require('assert');
+
+describe('cloudfront', function() {
+describe('with desktop header',function(){
+    it('should get device type desktop', function(){
+        var type = device.<span class="apidocCodeKeywordSpan">customCheck</span>({ headers: { 'cloudfront-is-desktop-viewer
+': 'true' } });
+        assert.equal(type, 'desktop');
+    });
+});
+describe('with mobile viewer', function () {
+    it('should get device type phone', function () {
+        var type = device.customCheck({ headers: { 'cloudfront-is-mobile-viewer': 'true' } });
+        assert.equal(type, 'phone');
+...</pre></li>
     </ul>
 
 

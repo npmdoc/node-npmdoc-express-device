@@ -351,7 +351,24 @@ x3c;/strong&#x3e;&#x3c;/td&#x3e;&#x3c;td&#x3e;&#x3c;strong&#x3e;Description&#x3c
 
     return mydevice.type;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+var device = require(&#x27;../lib/device.js&#x27;),
+assert = require(&#x27;assert&#x27;);
+
+describe(&#x27;cloudfront&#x27;, function() {
+describe(&#x27;with desktop header&#x27;,function(){
+    it(&#x27;should get device type desktop&#x27;, function(){
+        var type = device.<span class="apidocCodeKeywordSpan">customCheck</span>({ headers: { &#x27;cloudfront-is-desktop-viewer
+&#x27;: &#x27;true&#x27; } });
+        assert.equal(type, &#x27;desktop&#x27;);
+    });
+});
+describe(&#x27;with mobile viewer&#x27;, function () {
+    it(&#x27;should get device type phone&#x27;, function () {
+        var type = device.customCheck({ headers: { &#x27;cloudfront-is-mobile-viewer&#x27;: &#x27;true&#x27; } });
+        assert.equal(type, &#x27;phone&#x27;);
+...</pre></li>
     </ul>
 
 
@@ -669,7 +686,24 @@ x3c;/strong&#x3e;&#x3c;/td&#x3e;&#x3c;td&#x3e;&#x3c;strong&#x3e;Description&#x3c
 
     return mydevice.type;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+var device = require(&#x27;../lib/device.js&#x27;),
+assert = require(&#x27;assert&#x27;);
+
+describe(&#x27;cloudfront&#x27;, function() {
+describe(&#x27;with desktop header&#x27;,function(){
+    it(&#x27;should get device type desktop&#x27;, function(){
+        var type = device.<span class="apidocCodeKeywordSpan">customCheck</span>({ headers: { &#x27;cloudfront-is-desktop-viewer
+&#x27;: &#x27;true&#x27; } });
+        assert.equal(type, &#x27;desktop&#x27;);
+    });
+});
+describe(&#x27;with mobile viewer&#x27;, function () {
+    it(&#x27;should get device type phone&#x27;, function () {
+        var type = device.customCheck({ headers: { &#x27;cloudfront-is-mobile-viewer&#x27;: &#x27;true&#x27; } });
+        assert.equal(type, &#x27;phone&#x27;);
+...</pre></li>
     </ul>
 
 
